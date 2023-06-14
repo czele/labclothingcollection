@@ -6,9 +6,9 @@ namespace labclothingcollection.Models
     {
         [Required(ErrorMessage = "Campo e-mail de nascimento é obrigatório")]
         [DataType(DataType.EmailAddress, ErrorMessage = "E-mail em formato inválido")]
-        public string email { get; set; }
-        public string tipo { get; set; }
-        public string status { get; set; }
+        public string Email { get; set; }
+        public string Tipo { get; set; }
+        public string Status { get; set; }
 
     }
 }
