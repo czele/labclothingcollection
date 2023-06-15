@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace labclothingcollection.Models
 {
@@ -8,8 +9,10 @@ namespace labclothingcollection.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Campo responsável é obrigatório")]
-        public Usuario UsuarioId { get; set; }
+        [ForeignKey("Usuario")]
+        public Usuario UsuarioIdentificador { get; set; }
 
+        [ForeignKey("Modelo")]
         public Modelo ModeloId { get; set; }
 
         [Required(ErrorMessage = "Campo nome é obrigatório")]

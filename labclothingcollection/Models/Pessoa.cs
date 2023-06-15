@@ -3,10 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace labclothingcollection.Models
 {
+    [Index(nameof(Cpf), IsUnique = true)]
     public class Pessoa
     {
         [Key]
-        public int Id { get; set; }
+        public int Identificador { get; set; }
 
         [MaxLength(200, ErrorMessage = "Campo nome pode ter no máximo 200 caracteres")]
         public string Nome { get; set; }
@@ -20,7 +21,7 @@ namespace labclothingcollection.Models
         [MaxLength(100, ErrorMessage = "Campo data de nascimento pode ter no máximo 100 caracteres")]
         public string DataNascimento { get; set; }
 
-        
+        //nao
         [MaxLength(100, ErrorMessage = "Campo CPF pode ter no máximo 100 caracteres")]
         public string Cpf { get; set; }
 

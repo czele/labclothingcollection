@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace labclothingcollection.Models
 {
@@ -8,6 +9,7 @@ namespace labclothingcollection.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Campo identificação da coleção é obrigatório")]
+        [ForeignKey("Colecao")]
         public Colecao ColecaoId { get; set; }
 
 

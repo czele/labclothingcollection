@@ -1,5 +1,7 @@
-﻿using labclothingcollection.Models;
+﻿using labclothingcollection.Context;
+using labclothingcollection.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,25 +11,40 @@ namespace labclothingcollection.Controllers
     [ApiController]
     public class UsuariosController : ControllerBase
     {
-        
+        private readonly LabClothingCollectionContext _context;
+
+        public UsuariosController(LabClothingCollectionContext labClothingCollectionContext)
+        {
+            _context = labClothingCollectionContext;
+        }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Get(/*[FromQuery] string status*/)
+        public async Task<IActionResult> Get([FromQuery] string? status)
         {
-            return Ok(MockUsuarios.usuario);
+            if(status is null)
+            {
+                return Ok(await _context.Usuario.ToListAsync().ConfigureAwait(true));
+            }
+
+            List<Usuario> usuarios = await _context.Usuario.Where(x => x.Status == status).ToListAsync();
+
+            return Ok(usuarios);
+
         }
 
         
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            Usuario usuario = MockUsuarios.usuario.FirstOrDefault(usuario => usuario.Identificador == id); 
+            var usuario = await _context.Usuario.
+                FirstOrDefaultAsync(x => x.Identificador == id).ConfigureAwait(true); 
             
-            if(usuario == null)
+            if(usuario is null)
             {
-                return NotFound();
+                return NotFound("Usuário não encontrado");
             }
 
             return Ok(usuario);
@@ -36,9 +53,11 @@ namespace labclothingcollection.Controllers
        
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult Post([FromBody] Usuario usuario)
+        public async Task<IActionResult> Post([FromBody] Usuario usuario)
         {
-            MockUsuarios.usuario.Add(usuario);
+            _context.Usuario.Add(usuario);
+
+            await _context.SaveChangesAsync();   
 
             return CreatedAtAction(nameof(Get), new { id = usuario.Identificador }, usuario);
         }
@@ -46,50 +65,42 @@ namespace labclothingcollection.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
-        public IActionResult Put([FromRoute] int id, [FromBody] Usuario usuario)
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] Usuario usuario)
         {
-            Usuario usuarioLista = MockUsuarios.usuario.FirstOrDefault(usuario => usuario.Id == id);
+            bool existeUsuario = await _context.Usuario.AnyAsync(x => x.Identificador == id).ConfigureAwait(true);
 
-            if (usuarioLista == null)
+            if (!existeUsuario)
             {
-                return NotFound();
+                return NotFound("Usuário não encontrado");
             }
 
-            var index = MockUsuarios.usuario.IndexOf(usuarioLista);
+            _context.Entry(usuario).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
-            if (index != -1)
-            {
-                MockUsuarios.usuario[index] = usuarioLista;
-                return NoContent();
-            }
-
-            return Ok(usuario);
+            return NoContent();
 
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        /*[ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}/status")]
-        public IActionResult PutStatus([FromRoute] int id, [FromBody] Status status)
+        public async Task<IActionResult> PutStatus([FromRoute] int id, [FromBody] Status status)
         {
-            Usuario usuarioLista = MockUsuarios.usuario.FirstOrDefault(usuario => usuario.Id == id);
-
-            if (usuarioLista == null)
+            var usuario = await _context.Usuario.FirstOrDefaultAsync(x => x.Identificador == id).ConfigureAwait(true);
+                
+       
+            if (usuario is null)
             {
-                return NotFound();
+                return NotFound("Usuário não encontrado");
             }
 
-            var index = MockUsuarios.usuario.IndexOf(usuarioLista);
+            usuario.Status = status; // Atualiza o status do usuário
 
-            if (index != -1)
-            {
-                MockUsuarios.usuario[index] = usuarioLista;
-                return NoContent();
-            }
+            await _context.SaveChangesAsync(); // Salva as alterações no banco de dados
 
-            return Ok(status);
+            return NoContent();
 
-        }
+        }*/
 
     }
 }

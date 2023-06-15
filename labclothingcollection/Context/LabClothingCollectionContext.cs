@@ -11,6 +11,8 @@ namespace labclothingcollection.Context
         public LabClothingCollectionContext( ) { }
 
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Modelo> Modelo { get; set; }
+        public virtual DbSet<Colecao> Colecao { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
