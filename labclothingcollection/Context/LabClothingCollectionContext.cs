@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using labclothingcollection.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace labclothingcollection.Context
@@ -9,6 +10,13 @@ namespace labclothingcollection.Context
 
         public LabClothingCollectionContext( ) { }
 
-        //public virtual DbSet< >
+        public virtual DbSet<Usuario> Usuario { get; set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("ServerConnection");
+            }
+        }
     }
 }
