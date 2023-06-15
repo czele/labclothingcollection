@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace labclothingcollection.Models
 {
@@ -16,10 +17,10 @@ namespace labclothingcollection.Models
 
 
         [Required(ErrorMessage = "Campo data de nascimento é obrigatório")]
-        [DisplayFormat(DataFormatString = "mm/dd/yyyy")]
-        public DateTime DataNascimento { get; set; }
+        [MaxLength(100, ErrorMessage = "Campo data de nascimento pode ter no máximo 100 caracteres")]
+        public string DataNascimento { get; set; }
 
-
+        
         [MaxLength(100, ErrorMessage = "Campo CPF pode ter no máximo 100 caracteres")]
         public string Cpf { get; set; }
 
