@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using labclothingcollection.Context;
 using labclothingcollection.Models;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace labclothingcollection.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/colecoes")]
     [ApiController]
     public class ColecaoController : ControllerBase
     {
@@ -21,33 +22,34 @@ namespace labclothingcollection.Controllers
             _context = context;
         }
 
-        // GET: api/Colecao
+   
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Colecao>>> GetColecao()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get([FromQuery] string? status)
         {
-          if (_context.Colecao == null)
+          if (status is null)
           {
-              return NotFound();
+                return Ok(await _context.Colecao.ToListAsync().ConfigureAwait(true));
           }
-            return await _context.Colecao.ToListAsync();
+            List<Colecao> colecao = await _context.Colecao.Where(x => x.Status == status).ToListAsync();
+            
+            return Ok(colecao);
         }
 
-        // GET: api/Colecao/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Colecao>> GetColecao(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Get(int id)
         {
-          if (_context.Colecao == null)
-          {
-              return NotFound();
-          }
-            var colecao = await _context.Colecao.FindAsync(id);
+            var colecao = await _context.Colecao.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
 
-            if (colecao == null)
+            if (colecao is null)
             {
-                return NotFound();
+                return NotFound("Coleção não encontrado");
             }
 
-            return colecao;
+            return Ok(colecao);
+
         }
 
         // PUT: api/Colecao/5
@@ -81,19 +83,26 @@ namespace labclothingcollection.Controllers
             return NoContent();
         }
 
-        // POST: api/Colecao
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPost]
-        public async Task<ActionResult<Colecao>> PostColecao(Colecao colecao)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [SwaggerResponse(StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> Post([FromBody]Colecao colecao)
         {
-          if (_context.Colecao == null)
-          {
-              return Problem("Entity set 'LabClothingCollectionContext.Colecao'  is null.");
-          }
-            _context.Colecao.Add(colecao);
-            await _context.SaveChangesAsync();
+            var colecaoExiste = await _context.Colecao.FirstOrDefaultAsync(x => x.Nome == colecao.Nome).ConfigureAwait(true);
 
-            return CreatedAtAction("GetColecao", new { id = colecao.Id }, colecao);
+            if (colecaoExiste is null)
+            {
+
+                _context.Colecao.Add(colecao);
+
+                await _context.SaveChangesAsync();
+
+                return Ok(CreatedAtAction(nameof(Get), new { id = colecao.Id }, colecao));
+            }
+
+            return Conflict("Coleção já cadastrada");
+            
         }
 
         // DELETE: api/Colecao/5

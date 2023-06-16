@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace labclothingcollection.Models
 {
+    [Index(nameof(Nome), IsUnique = true)]
     public class Colecao
     {
         [Key]

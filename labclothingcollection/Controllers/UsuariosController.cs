@@ -39,8 +39,7 @@ namespace labclothingcollection.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
-            var usuario = await _context.Usuario.
-                FirstOrDefaultAsync(x => x.Identificador == id).ConfigureAwait(true); 
+            var usuario = await _context.Usuario.FirstOrDefaultAsync(x => x.Identificador == id).ConfigureAwait(true); 
             
             if(usuario is null)
             {

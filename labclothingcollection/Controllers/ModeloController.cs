@@ -10,7 +10,7 @@ using labclothingcollection.Models;
 
 namespace labclothingcollection.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/modelos")]
     [ApiController]
     public class ModeloController : ControllerBase
     {
@@ -83,10 +83,10 @@ namespace labclothingcollection.Controllers
             return NoContent();
         }
 
-        // POST: api/Modelo
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPost]
-        public async Task<ActionResult<Modelo>> PostModelo(Modelo modelo)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> Post([FromBody]Modelo modelo)
         {
           if (_context.Modelo == null)
           {
