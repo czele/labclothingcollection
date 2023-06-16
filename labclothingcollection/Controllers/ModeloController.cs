@@ -23,13 +23,15 @@ namespace labclothingcollection.Controllers
 
         // GET: api/Modelo
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Modelo>>> GetModelo()
+        public async Task<IActionResult> Get([FromQuery] string? layout)
         {
-          if (_context.Modelo == null)
+          if (layout is null)
           {
-              return NotFound();
+              return Ok(await _context.Modelo.ToListAsync().ConfigureAwait(true));
           }
-            return await _context.Modelo.ToListAsync();
+
+            List<Modelo> modelos = await _context.Modelo.Where(x => x.Layout == layout).ToListAsync();
+            return Ok(modelos);
         }
 
         // GET: api/Modelo/5

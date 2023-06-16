@@ -10,10 +10,9 @@ namespace labclothingcollection.Models
 
         [Required(ErrorMessage = "Campo responsável é obrigatório")]
         [ForeignKey("Usuario")]
-        public Usuario UsuarioIdentificador { get; set; }
+        public int UsuarioIdentificador { get; set; }
+        public virtual Usuario Usuario { get; set; }
 
-        [ForeignKey("Modelo")]
-        public Modelo ModeloId { get; set; }
 
         [Required(ErrorMessage = "Campo nome é obrigatório")]
         [MaxLength(200, ErrorMessage = "Campo nome pode ter no máximo 200 caracteres")]
@@ -32,7 +31,7 @@ namespace labclothingcollection.Models
 
         [Required(ErrorMessage = "Campo orçamento é obrigatório")]
         [DisplayFormat(DataFormatString = "{0:C0}")]
-        public decimal Orcamento { get; set; }
+        public int Orcamento { get; set; }
 
 
         [Required(ErrorMessage = "Campo ano de lançamento é obrigatório")]

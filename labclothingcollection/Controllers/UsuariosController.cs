@@ -86,9 +86,10 @@ namespace labclothingcollection.Controllers
         [HttpPut("{id}/status")]
         public async Task<IActionResult> PutStatus([FromRoute] int id, [FromBody] Status status)
         {
-            var usuario = await _context.Usuario.FirstOrDefaultAsync(x => x.Identificador == id).ConfigureAwait(true);
+            var usuario = await _context.Usuario.
                 
        
+
             if (usuario is null)
             {
                 return NotFound("Usuário não encontrado");
