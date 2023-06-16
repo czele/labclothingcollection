@@ -2,6 +2,7 @@
 using labclothingcollection.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -52,13 +53,22 @@ namespace labclothingcollection.Controllers
        
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [SwaggerResponse(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Post([FromBody] Usuario usuario)
         {
-            _context.Usuario.Add(usuario);
+            var UsuarioExiste = await _context.Usuario.FirstOrDefaultAsync(x => x.Cpf == usuario.Cpf).ConfigureAwait(true);
 
-            await _context.SaveChangesAsync();   
+            if (UsuarioExiste is null)
+            {
+                _context.Usuario.Add(usuario);
 
-            return CreatedAtAction(nameof(Get), new { id = usuario.Identificador }, usuario);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(Get), new { id = usuario.Identificador }, usuario);
+            }
+
+            return Conflict("Usuário já cadastrado");
+
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
