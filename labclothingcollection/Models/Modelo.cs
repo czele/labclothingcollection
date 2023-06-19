@@ -1,14 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace labclothingcollection.Models
 {
+    [Index(nameof(Nome), IsUnique = true)]
     public class Modelo
     {
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Campo identificação da coleção é obrigatório")]
+
         [ForeignKey("Colecao")]
         public int ColecaoId { get; set; }
         

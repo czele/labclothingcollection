@@ -18,10 +18,10 @@ namespace labclothingcollection.Models
 
 
         [Required(ErrorMessage = "Campo data de nascimento é obrigatório")]
-        [MaxLength(100, ErrorMessage = "Campo data de nascimento pode ter no máximo 100 caracteres")]
-        public string DataNascimento { get; set; }
+        [DisplayFormat(DataFormatString = "mm/dd/yyyy")]
+        public DateTime DataNascimento { get; set; }
 
-        //nao
+
         [MaxLength(100, ErrorMessage = "Campo CPF pode ter no máximo 100 caracteres")]
         public string Cpf { get; set; }
 

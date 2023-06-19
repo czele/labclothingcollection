@@ -61,6 +61,9 @@ namespace labclothingcollection.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Nome")
+                        .IsUnique();
+
                     b.HasIndex("UsuarioIdentificador");
 
                     b.ToTable("Colecao");
@@ -112,10 +115,8 @@ namespace labclothingcollection.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("DataNascimento")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<DateTime>("DataNascimento")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()

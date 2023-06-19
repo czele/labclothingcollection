@@ -10,7 +10,6 @@ namespace labclothingcollection.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Campo responsável é obrigatório")]
         [ForeignKey("Usuario")]
         public int UsuarioIdentificador { get; set; }
         public virtual Usuario Usuario { get; set; }

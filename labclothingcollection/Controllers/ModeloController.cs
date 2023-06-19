@@ -83,7 +83,7 @@ namespace labclothingcollection.Controllers
             return NoContent();
         }
 
-        
+        // POST: api/Modelo
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Post([FromBody]Modelo modelo)

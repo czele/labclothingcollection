@@ -41,21 +41,21 @@ namespace labclothingcollection.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
-            var colecao = await _context.Colecao.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
+            var colecaoExiste = await _context.Colecao.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
 
-            if (colecao is null)
+            if (colecaoExiste is null)
             {
                 return NotFound("Coleção não encontrado");
             }
 
-            return Ok(colecao);
+            return Ok(colecaoExiste);
 
         }
 
         // PUT: api/Colecao/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutColecao(int id, Colecao colecao)
+        public async Task<IActionResult> Put(int id, Colecao colecao)
         {
             if (id != colecao.Id)
             {
@@ -63,22 +63,6 @@ namespace labclothingcollection.Controllers
             }
 
             _context.Entry(colecao).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ColecaoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
             return NoContent();
         }
@@ -93,7 +77,6 @@ namespace labclothingcollection.Controllers
 
             if (colecaoExiste is null)
             {
-
                 _context.Colecao.Add(colecao);
 
                 await _context.SaveChangesAsync();
@@ -105,29 +88,25 @@ namespace labclothingcollection.Controllers
             
         }
 
-        // DELETE: api/Colecao/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteColecao(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(int id)
         {
-            if (_context.Colecao == null)
+            var colecaoExiste = await _context.Colecao.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
+
+            if (colecaoExiste is null)
             {
-                return NotFound();
-            }
-            var colecao = await _context.Colecao.FindAsync(id);
-            if (colecao == null)
-            {
-                return NotFound();
+                return NotFound("Coleção não encontrada");
             }
 
-            _context.Colecao.Remove(colecao);
+            //if(colecaoExiste.Status == "Inativo" & )
+
+            _context.Colecao.Remove(colecaoExiste);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ColecaoExists(int id)
-        {
-            return (_context.Colecao?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
     }
 }

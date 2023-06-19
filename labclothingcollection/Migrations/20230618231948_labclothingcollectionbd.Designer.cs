@@ -12,8 +12,8 @@ using labclothingcollection.Context;
 namespace labclothingcollection.Migrations
 {
     [DbContext(typeof(LabClothingCollectionContext))]
-    [Migration("20230615235612_labclothingcollection")]
-    partial class labclothingcollection
+    [Migration("20230618231948_labclothingcollectionbd")]
+    partial class labclothingcollectionbd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,9 @@ namespace labclothingcollection.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Nome")
+                        .IsUnique();
 
                     b.HasIndex("UsuarioIdentificador");
 
@@ -115,10 +118,8 @@ namespace labclothingcollection.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("DataNascimento")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<DateTime>("DataNascimento")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()

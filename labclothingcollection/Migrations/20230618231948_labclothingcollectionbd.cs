@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace labclothingcollection.Migrations
 {
     /// <inheritdoc />
-    public partial class labclothingcollection : Migration
+    public partial class labclothingcollectionbd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,7 @@ namespace labclothingcollection.Migrations
                     Status = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Genero = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DataNascimento = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Cpf = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Telefone = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
@@ -77,6 +77,12 @@ namespace labclothingcollection.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Colecao_Nome",
+                table: "Colecao",
+                column: "Nome",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Colecao_UsuarioIdentificador",
