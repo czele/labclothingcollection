@@ -56,13 +56,6 @@ namespace labclothingcollection.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, Colecao colecao)
         {
-            if (id != colecao.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(colecao).State = EntityState.Modified;
-
             return NoContent();
         }
 

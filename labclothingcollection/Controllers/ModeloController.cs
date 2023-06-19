@@ -55,25 +55,11 @@ namespace labclothingcollection.Controllers
         }
 
         // PUT: api/Modelo/5
+
+        [HttpPut("id")]
         public async Task<IActionResult> Put(int id, Modelo modelo)
         {
-            if (id != modelo.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(modelo).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                
-            }
-
-            return NoContent();
+            return NoContent();  
         }
 
         [HttpPost]

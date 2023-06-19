@@ -97,8 +97,6 @@ namespace labclothingcollection.Controllers
         {
             var usuario = await _context.Usuario.
                 
-       
-
             if (usuario is null)
             {
                 return NotFound("Usuário não encontrado");
