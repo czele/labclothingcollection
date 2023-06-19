@@ -54,8 +54,6 @@ namespace labclothingcollection.Controllers
         }
 
         // PUT: api/Modelo/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
         public async Task<IActionResult> PutModelo(int id, Modelo modelo)
         {
             if (id != modelo.Id)
