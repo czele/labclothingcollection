@@ -22,8 +22,9 @@ namespace labclothingcollection.Controllers
             _context = context;
         }
 
-        // GET: api/Modelo
+
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromQuery] string? layout)
         {
           if (layout is null)
@@ -32,29 +33,29 @@ namespace labclothingcollection.Controllers
           }
 
             List<Modelo> modelos = await _context.Modelo.Where(x => x.Layout == layout).ToListAsync();
+            
             return Ok(modelos);
         }
 
-        // GET: api/Modelo/5
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<Modelo>> GetModelo(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Modelo>> Get(int id)
         {
-          if (_context.Modelo == null)
-          {
-              return NotFound();
-          }
-            var modelo = await _context.Modelo.FindAsync(id);
 
-            if (modelo == null)
+            var modeloExiste = await _context.Modelo.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
+           
+            if(modeloExiste is null) 
             {
-                return NotFound();
+                return NotFound("Modelo não encontrado");
             }
-
-            return modelo;
+            
+            return Ok(modeloExiste);
         }
 
         // PUT: api/Modelo/5
-        public async Task<IActionResult> PutModelo(int id, Modelo modelo)
+        public async Task<IActionResult> Put(int id, Modelo modelo)
         {
             if (id != modelo.Id)
             {
@@ -69,14 +70,7 @@ namespace labclothingcollection.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ModeloExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                
             }
 
             return NoContent();
@@ -103,29 +97,23 @@ namespace labclothingcollection.Controllers
 
         }
 
-        // DELETE: api/Modelo/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteModelo(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(int id)
         {
-            if (_context.Modelo == null)
+            var modeloExiste = await _context.Modelo.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
+            
+            if (modeloExiste is null)
             {
-                return NotFound();
-            }
-            var modelo = await _context.Modelo.FindAsync(id);
-            if (modelo == null)
-            {
-                return NotFound();
+                return NotFound("Modelo não encontrado");
             }
 
-            _context.Modelo.Remove(modelo);
+            _context.Modelo.Remove(modeloExiste);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ModeloExists(int id)
-        {
-            return (_context.Modelo?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
     }
 }
