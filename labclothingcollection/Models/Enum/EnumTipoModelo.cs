@@ -1,6 +1,6 @@
-﻿namespace labclothingcollection.Enum
+﻿namespace labclothingcollection.Models.Enum
 {
-    public enum EnumTipoColecao
+    public enum EnumTipoModelo
     {
         Bermuda,
         Biquini,

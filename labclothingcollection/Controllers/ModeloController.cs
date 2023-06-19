@@ -32,7 +32,7 @@ namespace labclothingcollection.Controllers
               return Ok(await _context.Modelo.ToListAsync().ConfigureAwait(true));
           }
 
-            List<Modelo> modelos = await _context.Modelo.Where(x => x.Layout == layout).ToListAsync();
+            List<Modelo> modelos = await _context.Modelo.Where(x => x.Layout.ToString() == layout).ToListAsync();
             
             return Ok(modelos);
         }

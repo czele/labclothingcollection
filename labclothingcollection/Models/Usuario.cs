@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using labclothingcollection.Models.Enum;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace labclothingcollection.Models
 {
@@ -12,13 +15,13 @@ namespace labclothingcollection.Models
         [MaxLength(200, ErrorMessage = "Campo e-mail pode ter no máximo 200 caracteres")]
         public string Email { get; set; }
 
-        
         [MaxLength(100, ErrorMessage = "Campo tipo pode ter no máximo 100 caracteres")]
-        public string Tipo { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        public EnumTipoUsuario Tipo { get; set; }
 
-
+        [Column(TypeName = "nvarchar(100)")]
         [MaxLength(100, ErrorMessage = "Campo status pode ter no máximo 100 caracteres")]
-        public string Status { get; set; }
+        public EnumStatus Status { get; set; }
 
     }
 }

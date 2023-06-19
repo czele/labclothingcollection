@@ -12,8 +12,8 @@ using labclothingcollection.Context;
 namespace labclothingcollection.Migrations
 {
     [DbContext(typeof(LabClothingCollectionContext))]
-    [Migration("20230618231948_labclothingcollectionbd")]
-    partial class labclothingcollectionbd
+    [Migration("20230619213900_labclothingcollection")]
+    partial class labclothingcollection
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,10 +36,9 @@ namespace labclothingcollection.Migrations
                     b.Property<DateTime>("AnoLancamento")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Estacao")
-                        .IsRequired()
+                    b.Property<int>("Estacao")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Marca")
                         .IsRequired()
@@ -54,10 +53,9 @@ namespace labclothingcollection.Migrations
                     b.Property<int>("Orcamento")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
+                    b.Property<int>("Status")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("int");
 
                     b.Property<int>("UsuarioIdentificador")
                         .HasColumnType("int");
@@ -83,24 +81,25 @@ namespace labclothingcollection.Migrations
                     b.Property<int>("ColecaoId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Layout")
-                        .IsRequired()
+                    b.Property<int>("Layout")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Tipo")
-                        .IsRequired()
+                    b.Property<int>("Tipo")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ColecaoId");
+
+                    b.HasIndex("Nome")
+                        .IsUnique();
 
                     b.ToTable("Modelo");
                 });
@@ -136,20 +135,18 @@ namespace labclothingcollection.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
+                    b.Property<int>("Status")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Tipo")
-                        .IsRequired()
+                    b.Property<int>("Tipo")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("int");
 
                     b.HasKey("Identificador");
 

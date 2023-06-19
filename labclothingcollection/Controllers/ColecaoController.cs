@@ -31,7 +31,7 @@ namespace labclothingcollection.Controllers
           {
                 return Ok(await _context.Colecao.ToListAsync().ConfigureAwait(true));
           }
-            List<Colecao> colecao = await _context.Colecao.Where(x => x.Status == status).ToListAsync();
+            List<Colecao> colecao = await _context.Colecao.Where(x => x.Status.ToString() == status).ToListAsync();
             
             return Ok(colecao);
         }

@@ -28,7 +28,7 @@ namespace labclothingcollection.Controllers
                 return Ok(await _context.Usuario.ToListAsync().ConfigureAwait(true));
             }
 
-            List<Usuario> usuarios = await _context.Usuario.Where(x => x.Status == status).ToListAsync();
+            List<Usuario> usuarios = await _context.Usuario.Where(x => x.Status.ToString() == status).ToListAsync();
 
             return Ok(usuarios);
 

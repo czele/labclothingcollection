@@ -1,6 +1,6 @@
-﻿namespace labclothingcollection.Enum
+﻿namespace labclothingcollection.Models.Enum
 {
-    public enum EnumTipo
+    public enum EnumTipoUsuario
     {
         Administrador,
         Gerente,

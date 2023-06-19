@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using labclothingcollection.Models.Enum;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,7 +23,7 @@ namespace labclothingcollection.Models
 
         [Required(ErrorMessage = "Campo status é obrigatório")]
         [MaxLength(100, ErrorMessage = "Campo tipo pode ter no máximo 100 caracteres")]
-        public string Status { get; set; }
+        public EnumStatus Status { get; set; }
 
 
         [Required(ErrorMessage = "Campo marca é obrigatório")]
@@ -42,6 +43,6 @@ namespace labclothingcollection.Models
 
         [Required(ErrorMessage = "Campo estação é obrigatório")]
         [MaxLength(100, ErrorMessage = "Campo estação pode ter no máximo 100 caracteres")]
-        public string Estacao { get; set; }
+        public EnumEstacao Estacao { get; set; }
     }
 }

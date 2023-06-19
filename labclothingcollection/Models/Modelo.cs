@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using labclothingcollection.Models.Enum;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,11 +25,13 @@ namespace labclothingcollection.Models
 
         [Required(ErrorMessage = "Campo tipo é obrigatório")]
         [MaxLength(100, ErrorMessage = "Campo tipo pode ter no máximo 100 caracteres")]
-        public string Tipo { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        public EnumTipoModelo Tipo { get; set; }
 
 
         [Required(ErrorMessage = "Campo layout da coleção é obrigatório")]
         [MaxLength(100, ErrorMessage = "Campo layout pode ter no máximo 100 caracteres")]
-        public string Layout { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        public EnumLayout Layout { get; set; }
     }
 }

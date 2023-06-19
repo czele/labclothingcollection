@@ -1,4 +1,4 @@
-﻿namespace labclothingcollection.Enum
+﻿namespace labclothingcollection.Models.Enum
 {
     public enum EnumLayout
     {
