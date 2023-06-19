@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using labclothingcollection.Context;
 using labclothingcollection.Models;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace labclothingcollection.Controllers
 {
@@ -83,19 +84,25 @@ namespace labclothingcollection.Controllers
             return NoContent();
         }
 
-        // POST: api/Modelo
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [SwaggerResponse(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Post([FromBody]Modelo modelo)
         {
-          if (_context.Modelo == null)
-          {
-              return Problem("Entity set 'LabClothingCollectionContext.Modelo'  is null.");
-          }
-            _context.Modelo.Add(modelo);
-            await _context.SaveChangesAsync();
+            var modeloExiste = await _context.Modelo.FirstOrDefaultAsync(x => x.Nome == modelo.Nome).ConfigureAwait(true);
+            
+            if(modeloExiste is null)
+            {
+                _context.Modelo.Add(modelo);
 
-            return CreatedAtAction("GetModelo", new { id = modelo.Id }, modelo);
+                await _context.SaveChangesAsync();
+
+                return Ok(CreatedAtAction(nameof(Get), new { id = modelo.Id }, modelo));
+            
+            }
+
+            return Conflict("Modelo já cadastrado");
+
         }
 
         // DELETE: api/Modelo/5
