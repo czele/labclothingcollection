@@ -1,8 +1,12 @@
-﻿using labclothingcollection.Context;
+﻿using AutoMapper;
+using labclothingcollection.Context;
+using labclothingcollection.DTO.Response;
 using labclothingcollection.Models;
+using labclothingcollection.Models.Enum;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,16 +25,20 @@ namespace labclothingcollection.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] string? status)
+        public async Task<IActionResult> Get([FromQuery] EnumStatus? status)
         {
-            if(status is null)
-            {
-                return Ok(await _context.Usuario.ToListAsync().ConfigureAwait(true));
-            }
+            List<Usuario> usuarios = await _context.Usuario.
+                Where(x => status != null ? x.Status == status : x.Status != null).ToListAsync();
 
-            List<Usuario> usuarios = await _context.Usuario.Where(x => x.Status.ToString() == status).ToListAsync();
+            var configuration = new MapperConfiguration(
+                cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
 
-            return Ok(usuarios);
+            var mapper = configuration.CreateMapper();
+
+            List<UsuarioResponseDTO> usuarioResponseDTO = 
+                mapper.Map<List<UsuarioResponseDTO>>(usuarios);
+
+            return Ok(usuarioResponseDTO);
 
         }
 
@@ -38,16 +46,25 @@ namespace labclothingcollection.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetId(int id)
         {
-            var usuario = await _context.Usuario.FirstOrDefaultAsync(x => x.Identificador == id).ConfigureAwait(true); 
-            
-            if(usuario is null)
+            var usuario = await _context.Usuario.
+                FirstOrDefaultAsync(x => x.Identificador == id).ConfigureAwait(true);
+
+            var configuration = new MapperConfiguration(
+                cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
+
+            var mapper = configuration.CreateMapper();
+
+            UsuarioResponseDTO usuarioResponseDTO =
+                mapper.Map<UsuarioResponseDTO>(usuario);
+
+            if (usuarioResponseDTO is null)
             {
                 return NotFound("Usuário não encontrado");
             }
 
-            return Ok(usuario);
+            return Ok(usuarioResponseDTO);
         }
 
        
@@ -64,7 +81,15 @@ namespace labclothingcollection.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(Get), new { id = usuario.Identificador }, usuario);
+                var configuration = new MapperConfiguration(
+                cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
+
+                var mapper = configuration.CreateMapper();
+
+                UsuarioResponseDTO usuarioResponseDTO =
+                    mapper.Map<UsuarioResponseDTO>(usuario);
+
+                return CreatedAtAction(nameof(Get), new { id = usuarioResponseDTO.Identificador }, usuarioResponseDTO);
             }
 
             return Conflict("Usuário já cadastrado");
@@ -90,25 +115,26 @@ namespace labclothingcollection.Controllers
 
         }
 
-        /*[ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPut("{id}/status")]
-        public async Task<IActionResult> PutStatus([FromRoute] int id, [FromBody] Status status)
+        [HttpPatch("{id}/status")]
+        public async Task<IActionResult> Patch([FromRoute] int id, [FromBody] EnumStatus status)
         {
-            var usuario = await _context.Usuario.
-                
+            var usuario = await _context.Usuario.FirstOrDefaultAsync(x => x.Identificador == id).ConfigureAwait(true);
+
+
             if (usuario is null)
             {
                 return NotFound("Usuário não encontrado");
             }
 
-            usuario.Status = status; // Atualiza o status do usuário
+            usuario.Status = status; 
 
-            await _context.SaveChangesAsync(); // Salva as alterações no banco de dados
+            await _context.SaveChangesAsync(); 
 
             return NoContent();
 
-        }*/
+        }
 
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace labclothingcollection.Migrations
 {
     /// <inheritdoc />
-    public partial class labclothingcollection : Migration
+    public partial class labclothingcollectinbdenum : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,8 +18,8 @@ namespace labclothingcollection.Migrations
                     Identificador = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Tipo = table.Column<int>(type: "int", maxLength: 100, nullable: false),
-                    Status = table.Column<int>(type: "int", maxLength: 100, nullable: false),
+                    Tipo = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Genero = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -39,11 +39,11 @@ namespace labclothingcollection.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UsuarioIdentificador = table.Column<int>(type: "int", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Status = table.Column<int>(type: "int", maxLength: 100, nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     Marca = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Orcamento = table.Column<int>(type: "int", nullable: false),
                     AnoLancamento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Estacao = table.Column<int>(type: "int", maxLength: 100, nullable: false)
+                    Estacao = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,8 +64,8 @@ namespace labclothingcollection.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ColecaoId = table.Column<int>(type: "int", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Tipo = table.Column<int>(type: "int", maxLength: 100, nullable: false),
-                    Layout = table.Column<int>(type: "int", maxLength: 100, nullable: false)
+                    Tipo = table.Column<int>(type: "int", nullable: false),
+                    Layout = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

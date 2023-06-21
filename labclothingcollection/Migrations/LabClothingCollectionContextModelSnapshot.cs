@@ -34,7 +34,6 @@ namespace labclothingcollection.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Estacao")
-                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.Property<string>("Marca")
@@ -51,7 +50,6 @@ namespace labclothingcollection.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
-                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.Property<int>("UsuarioIdentificador")
@@ -78,20 +76,16 @@ namespace labclothingcollection.Migrations
                     b.Property<int>("ColecaoId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Layout")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int>("Layout")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int>("Tipo")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -134,20 +128,16 @@ namespace labclothingcollection.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int>("Tipo")
+                        .HasColumnType("int");
 
                     b.HasKey("Identificador");
 

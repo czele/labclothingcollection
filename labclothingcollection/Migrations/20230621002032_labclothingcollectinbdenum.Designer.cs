@@ -12,8 +12,8 @@ using labclothingcollection.Context;
 namespace labclothingcollection.Migrations
 {
     [DbContext(typeof(LabClothingCollectionContext))]
-    [Migration("20230619213900_labclothingcollection")]
-    partial class labclothingcollection
+    [Migration("20230621002032_labclothingcollectinbdenum")]
+    partial class labclothingcollectinbdenum
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,6 @@ namespace labclothingcollection.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Estacao")
-                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.Property<string>("Marca")
@@ -54,7 +53,6 @@ namespace labclothingcollection.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
-                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.Property<int>("UsuarioIdentificador")
@@ -82,7 +80,6 @@ namespace labclothingcollection.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Layout")
-                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.Property<string>("Nome")
@@ -91,7 +88,6 @@ namespace labclothingcollection.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("Tipo")
-                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -136,7 +132,6 @@ namespace labclothingcollection.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("Status")
-                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.Property<string>("Telefone")
@@ -145,7 +140,6 @@ namespace labclothingcollection.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("Tipo")
-                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.HasKey("Identificador");

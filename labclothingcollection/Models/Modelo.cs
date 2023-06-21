@@ -24,14 +24,10 @@ namespace labclothingcollection.Models
 
 
         [Required(ErrorMessage = "Campo tipo é obrigatório")]
-        [MaxLength(100, ErrorMessage = "Campo tipo pode ter no máximo 100 caracteres")]
-        [Column(TypeName = "nvarchar(100)")]
         public EnumTipoModelo Tipo { get; set; }
 
 
         [Required(ErrorMessage = "Campo layout da coleção é obrigatório")]
-        [MaxLength(100, ErrorMessage = "Campo layout pode ter no máximo 100 caracteres")]
-        [Column(TypeName = "nvarchar(100)")]
         public EnumLayout Layout { get; set; }
     }
 }

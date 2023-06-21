@@ -22,7 +22,6 @@ namespace labclothingcollection.Models
 
 
         [Required(ErrorMessage = "Campo status é obrigatório")]
-        [MaxLength(100, ErrorMessage = "Campo tipo pode ter no máximo 100 caracteres")]
         public EnumStatus Status { get; set; }
 
 
@@ -42,7 +41,6 @@ namespace labclothingcollection.Models
 
 
         [Required(ErrorMessage = "Campo estação é obrigatório")]
-        [MaxLength(100, ErrorMessage = "Campo estação pode ter no máximo 100 caracteres")]
         public EnumEstacao Estacao { get; set; }
     }
 }
