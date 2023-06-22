@@ -1,6 +1,5 @@
 ﻿using labclothingcollection.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace labclothingcollection.Context
 {

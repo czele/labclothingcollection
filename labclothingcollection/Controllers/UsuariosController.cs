@@ -6,7 +6,6 @@ using labclothingcollection.Models.Enum;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -100,6 +99,14 @@ namespace labclothingcollection.Controllers
             {
                 return NotFound("Usuário não encontrado");
             }
+
+            await _context.SaveChangesAsync();
+
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
+
+            var mapper = configuration.CreateMapper();
+
+            UsuarioAtualizacaoResponseDTO usuarioResponseDTO = mapper.Map<UsuarioAtualizacaoResponseDTO>(usuario);
 
             _context.Entry(usuario).State = EntityState.Modified;
             await _context.SaveChangesAsync();

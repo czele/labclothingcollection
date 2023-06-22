@@ -17,7 +17,7 @@ namespace labclothingcollection.DTO.Response
         [DisplayFormat(DataFormatString = "mm/dd/yyyy")]
         public DateTime DataNascimento { get; set; }
 
-        
+
         public static implicit operator UsuarioResponseDTO(Usuario usuario)
         {
             UsuarioResponseDTO usuarioDTO = new UsuarioResponseDTO
@@ -31,8 +31,12 @@ namespace labclothingcollection.DTO.Response
                 Status = usuario.Status.ToString(),
                 Tipo = usuario.Tipo.ToString(),
             };
-            
+
             return usuarioDTO;
+
         }
+
     }
+
+
 }

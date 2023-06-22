@@ -77,7 +77,28 @@ namespace labclothingcollection.Controllers
             return NoContent();
         }
 
-        
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPatch("{id}/status")]
+        public async Task<IActionResult> Patch([FromRoute] int id, [FromBody] EnumStatus status)
+        {
+            var colecao = await _context.Colecao.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
+
+
+            if (colecao is null)
+            {
+                return NotFound("Coleção não encontrado");
+            }
+
+            colecao.Status = status;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+
+        }
+
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [SwaggerResponse(StatusCodes.Status409Conflict)]
