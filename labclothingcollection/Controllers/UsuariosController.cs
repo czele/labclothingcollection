@@ -27,16 +27,14 @@ namespace labclothingcollection.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromQuery] EnumStatus? status)
         {
-            List<Usuario> usuarios = await _context.Usuario.
-                Where(x => status != null ? x.Status == status : x.Status != null).ToListAsync();
+            List<Usuario> usuarios = await _context.Usuario.Where(x => status != null ? x.Status == status : x.Status != null)
+                .ToListAsync();
 
-            var configuration = new MapperConfiguration(
-                cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
 
             var mapper = configuration.CreateMapper();
 
-            List<UsuarioResponseDTO> usuarioResponseDTO = 
-                mapper.Map<List<UsuarioResponseDTO>>(usuarios);
+            List<UsuarioResponseDTO> usuarioResponseDTO = mapper.Map<List<UsuarioResponseDTO>>(usuarios);
 
             return Ok(usuarioResponseDTO);
 
@@ -48,16 +46,13 @@ namespace labclothingcollection.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetId(int id)
         {
-            var usuario = await _context.Usuario.
-                FirstOrDefaultAsync(x => x.Identificador == id).ConfigureAwait(true);
+            var usuario = await _context.Usuario.FirstOrDefaultAsync(x => x.Identificador == id).ConfigureAwait(true);
 
-            var configuration = new MapperConfiguration(
-                cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
 
             var mapper = configuration.CreateMapper();
 
-            UsuarioResponseDTO usuarioResponseDTO =
-                mapper.Map<UsuarioResponseDTO>(usuario);
+            UsuarioResponseDTO usuarioResponseDTO = mapper.Map<UsuarioResponseDTO>(usuario);
 
             if (usuarioResponseDTO is null)
             {
@@ -81,13 +76,11 @@ namespace labclothingcollection.Controllers
 
                 await _context.SaveChangesAsync();
 
-                var configuration = new MapperConfiguration(
-                cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
+                var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
 
                 var mapper = configuration.CreateMapper();
 
-                UsuarioResponseDTO usuarioResponseDTO =
-                    mapper.Map<UsuarioResponseDTO>(usuario);
+                UsuarioResponseDTO usuarioResponseDTO = mapper.Map<UsuarioResponseDTO>(usuario);
 
                 return CreatedAtAction(nameof(Get), new { id = usuarioResponseDTO.Identificador }, usuarioResponseDTO);
             }

@@ -25,15 +25,16 @@ namespace labclothingcollection.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromQuery] EnumLayout? layout)
         {
-            List<Modelo> modelos = await _context.Modelo.
-                Where(x => layout != null ? x.Layout == layout : x.Layout != null).ToListAsync();
+            List<Modelo> modelos = await _context.Modelo.Where(x => layout != null ? x.Layout == layout : x.Layout != null).
+                    ToListAsync();
 
-            var configuration = new MapperConfiguration(
-                cfg => cfg.CreateMap<Modelo, ModeloResponseDTO>());
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Modelo, ModeloResponseDTO>());
                
-            List<ModeloResponseDTO> modeloResponseDTO = Mapper.Map
+            var mapper = configuration.CreateMapper();
+
+            List<ModeloResponseDTO> modeloResponseDTO = mapper.Map<List<ModeloResponseDTO>>(modelos);
             
-            return Ok(modelos);
+            return Ok(modeloResponseDTO);
         }
 
 
@@ -43,21 +44,38 @@ namespace labclothingcollection.Controllers
         public async Task<ActionResult<Modelo>> Get(int id)
         {
 
-            var modeloExiste = await _context.Modelo.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
-           
-            if(modeloExiste is null) 
+            var modelo = await _context.Modelo.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
+
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Modelo, ModeloResponseDTO>());
+
+            var mapper = configuration.CreateMapper();
+
+            ModeloResponseDTO modeloResponseDTO = mapper.Map<ModeloResponseDTO>(modelo)
+            
+            if(modeloResponseDTO is null) 
             {
                 return NotFound("Modelo não encontrado");
             }
             
-            return Ok(modeloExiste);
+            return Ok(modeloResponseDTO);
         }
 
-        // PUT: api/Modelo/5
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("id")]
-        public async Task<IActionResult> Put(int id, Modelo modelo)
+        public async Task<IActionResult> Put([FromRoute]int id, [FromBody] Modelo modelo)
         {
+            bool existeUsuario = await _context.Modelo.AnyAsync(x => x.Id == id).ConfigureAwait(true); 
+            
+            if(!existeUsuario)
+            {
+                return NotFound("Modelo não encontrado");
+            }
+
+            _context.Entry(modelo).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
             return NoContent();  
         }
 
@@ -74,8 +92,14 @@ namespace labclothingcollection.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return Ok(CreatedAtAction(nameof(Get), new { id = modelo.Id }, modelo));
-            
+                var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Modelo, ModeloResponseDTO>());
+
+                var mapper = configuration.CreateMapper();
+
+                ModeloResponseDTO modeloResponseDTO = mapper.Map<ModeloResponseDTO>(modelo)
+
+
+                return Ok(CreatedAtAction(nameof(Get), new { id = modeloResponseDTO.Id }, modeloResponseDTO));
             }
 
             return Conflict("Modelo já cadastrado");
