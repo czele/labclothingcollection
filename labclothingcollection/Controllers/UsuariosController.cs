@@ -17,7 +17,7 @@ namespace labclothingcollection.Controllers
     public class UsuariosController : ControllerBase
     {
         private readonly LabClothingCollectionContext _context;
-        >
+        
         public UsuariosController(LabClothingCollectionContext labClothingCollectionContext)
         {
             _context = labClothingCollectionContext;

@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using labclothingcollection.Context;
 using labclothingcollection.Models;
 using Swashbuckle.AspNetCore.Annotations;
+using AutoMapper;
+using labclothingcollection.DTO.Response;
+using labclothingcollection.Models.Enum;
 
 namespace labclothingcollection.Controllers
 {
@@ -20,15 +23,18 @@ namespace labclothingcollection.Controllers
    
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] string? status)
+        public async Task<IActionResult> Get([FromQuery] EnumStatus? status)
         {
-          if (status is null)
-          {
-                return Ok(await _context.Colecao.ToListAsync().ConfigureAwait(true));
-          }
-            List<Colecao> colecao = await _context.Colecao.Where(x => x.Status.ToString() == status).ToListAsync();
+            List<Colecao> colecoes = await _context.Colecao.Where(x => status != null ? x.Status == status : x.Status != null)
+                    .ToListAsync();
+
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Colecao, ColecaoResponseDTO>());
+
+            var mapper = configuration.CreateMapper();
+
+            List<ColecaoResponseDTO> colecaoResponseDTO = mapper.Map<List<ColecaoResponseDTO>>(colecoes);
             
-            return Ok(colecao);
+            return Ok(colecaoResponseDTO);
         }
 
         [HttpGet("{id}")]
@@ -36,21 +42,38 @@ namespace labclothingcollection.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
-            var colecaoExiste = await _context.Colecao.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
+            var colecao = await _context.Colecao.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
 
-            if (colecaoExiste is null)
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Colecao, ColecaoResponseDTO>());
+
+            var mapper = configuration.CreateMapper();
+
+            ColecaoResponseDTO colecaoResponseDTO = mapper.Map<ColecaoResponseDTO>(colecao);
+
+            if (colecaoResponseDTO is null)
             {
                 return NotFound("Coleção não encontrado");
             }
 
-            return Ok(colecaoExiste);
+            return Ok(colecaoResponseDTO);
 
         }
 
-        // PUT: api/Colecao/5
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, Colecao colecao)
         {
+            bool existeColecao = await _context.Colecao.AnyAsync(x => x.Id == id).ConfigureAwait(true);
+
+            if(!existeColecao)
+            {
+                return NotFound("Coleção não encontrada");
+            }
+
+            _context.Entry(colecao).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
 
@@ -68,7 +91,13 @@ namespace labclothingcollection.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return Ok(CreatedAtAction(nameof(Get), new { id = colecao.Id }, colecao));
+                var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Colecao, ColecaoResponseDTO>());
+
+                var mapper = configuration.CreateMapper();
+
+                ColecaoResponseDTO colecaoResponseDTO = mapper.Map<ColecaoResponseDTO>(colecao);
+
+                return Ok(CreatedAtAction(nameof(Get), new { id = colecaoResponseDTO.Id }, colecaoResponseDTO));
             }
 
             return Conflict("Coleção já cadastrada");

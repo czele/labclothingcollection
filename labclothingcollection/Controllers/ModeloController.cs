@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿    using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using labclothingcollection.Context;
 using labclothingcollection.Models;
@@ -50,7 +50,7 @@ namespace labclothingcollection.Controllers
 
             var mapper = configuration.CreateMapper();
 
-            ModeloResponseDTO modeloResponseDTO = mapper.Map<ModeloResponseDTO>(modelo)
+            ModeloResponseDTO modeloResponseDTO = mapper.Map<ModeloResponseDTO>(modelo);
             
             if(modeloResponseDTO is null) 
             {
@@ -96,10 +96,9 @@ namespace labclothingcollection.Controllers
 
                 var mapper = configuration.CreateMapper();
 
-                ModeloResponseDTO modeloResponseDTO = mapper.Map<ModeloResponseDTO>(modelo)
+                ModeloResponseDTO modeloResponseDTO = mapper.Map<ModeloResponseDTO>(modelo);
 
-
-                return Ok(CreatedAtAction(nameof(Get), new { id = modeloResponseDTO.Id }, modeloResponseDTO));
+                return CreatedAtAction(nameof(Get), new { id = modeloResponseDTO.Id }, modeloResponseDTO);
             }
 
             return Conflict("Modelo já cadastrado");
