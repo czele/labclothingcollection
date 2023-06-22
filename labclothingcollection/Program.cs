@@ -8,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -16,6 +15,9 @@ builder.Services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.Re
 
 builder.Services.AddControllers().AddJsonOptions(x => {x.JsonSerializerOptions.Converters.
                                                         Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));});
+
+builder.Services.AddControllers().AddNewtonsoftJson(
+    x => x.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore);
 
 builder.Services.AddDbContext<LabClothingCollectionContext>(options => options.UseSqlServer(builder.Configuration.
                                                                             GetConnectionString("ServerConnection")));

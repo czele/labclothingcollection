@@ -15,7 +15,7 @@ namespace labclothingcollection.Models
         [ForeignKey("Colecao")]
         public int ColecaoId { get; set; }
         
-        public virtual Colecao Colecao { get; set; }
+        public virtual Colecao? Colecao { get; set; }
 
 
         [Required(ErrorMessage = "Campo nome é obrigatório")]

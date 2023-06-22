@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using labclothingcollection.Context;
 using labclothingcollection.Models;
 using Swashbuckle.AspNetCore.Annotations;
+using labclothingcollection.Models.Enum;
+using AutoMapper;
+using labclothingcollection.DTO.Response;
 
 namespace labclothingcollection.Controllers
 {
@@ -20,14 +23,15 @@ namespace labclothingcollection.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] string? layout)
+        public async Task<IActionResult> Get([FromQuery] EnumLayout? layout)
         {
-          if (layout is null)
-          {
-              return Ok(await _context.Modelo.ToListAsync().ConfigureAwait(true));
-          }
+            List<Modelo> modelos = await _context.Modelo.
+                Where(x => layout != null ? x.Layout == layout : x.Layout != null).ToListAsync();
 
-            List<Modelo> modelos = await _context.Modelo.Where(x => x.Layout.ToString() == layout).ToListAsync();
+            var configuration = new MapperConfiguration(
+                cfg => cfg.CreateMap<Modelo, ModeloResponseDTO>());
+               
+            List<ModeloResponseDTO> modeloResponseDTO = Mapper.Map
             
             return Ok(modelos);
         }

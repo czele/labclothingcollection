@@ -12,8 +12,8 @@ using labclothingcollection.Context;
 namespace labclothingcollection.Migrations
 {
     [DbContext(typeof(LabClothingCollectionContext))]
-    [Migration("20230621002032_labclothingcollectinbdenum")]
-    partial class labclothingcollectinbdenum
+    [Migration("20230622000139_banco")]
+    partial class banco
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

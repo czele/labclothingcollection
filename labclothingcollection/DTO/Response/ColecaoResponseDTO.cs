@@ -1,5 +1,4 @@
 ﻿using labclothingcollection.Models;
-using labclothingcollection.Models.Enum;
 using System.ComponentModel.DataAnnotations;
 
 namespace labclothingcollection.DTO.Response
@@ -7,7 +6,7 @@ namespace labclothingcollection.DTO.Response
     public class ColecaoResponseDTO
     {
         public int Id { get; set; }
-        public int UsuarioIdentificador { get; set; } //É UMA FOREING KEY
+        public Usuario? Usuario { get; set; } //É foreign key. Caso de errado substitui para public int UsuarioIdentificador
         public string Nome { get; set; }
         public string Status { get; set; }
         public string Marca { get; set; }
@@ -22,14 +21,14 @@ namespace labclothingcollection.DTO.Response
             ColecaoResponseDTO colecaoResponseDTO = new ColecaoResponseDTO
             {
                 Id = colecao.Id,
-                UsuarioIdentificador = colecao.UsuarioIdentificador,
+                Usuario = colecao.Usuario, //subistitui aqui se der errado aqui também
                 Nome = colecao.Nome,
                 Status = colecao.Status.ToString(),
                 Marca = colecao.Marca,
                 Orcamento = colecao.Orcamento,
                 Estacao = colecao.Estacao.ToString(),
                 AnoLancamento = colecao.AnoLancamento
-            }
+            };
             return colecaoResponseDTO;
         }
     }

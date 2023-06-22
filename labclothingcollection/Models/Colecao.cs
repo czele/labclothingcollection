@@ -13,7 +13,7 @@ namespace labclothingcollection.Models
 
         [ForeignKey("Usuario")]
         public int UsuarioIdentificador { get; set; }
-        public virtual Usuario Usuario { get; set; }
+        public virtual Usuario? Usuario { get; set; }
 
 
         [Required(ErrorMessage = "Campo nome é obrigatório")]
