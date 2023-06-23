@@ -128,6 +128,7 @@ namespace labclothingcollection.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> Delete(int id)
         {
             var colecaoExiste = await _context.Colecao.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
@@ -137,7 +138,16 @@ namespace labclothingcollection.Controllers
                 return NotFound("Coleção não encontrada");
             }
 
-            //if(colecaoExiste.Status == "Inativo" & )
+            if(colecaoExiste.Status == EnumStatus.Ativo)
+            {
+                return StatusCode(403, "Não é possível deletar uma coleção ativa");
+            }
+
+            bool existeModelo = await _context.Modelo.AnyAsync(x => x.ColecaoId == colecaoExiste.Id);
+            if (existeModelo) 
+            {
+                return StatusCode(403, "Não é possível deletar uma coleção que possua modelos atrelados.");
+            }
 
             _context.Colecao.Remove(colecaoExiste);
             await _context.SaveChangesAsync();
