@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace labclothingcollection.Controllers
 {
@@ -91,7 +90,7 @@ namespace labclothingcollection.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] Usuario usuario)
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] UsuarioAtualizacaoResponseDTO usuarioAtDTO)
         {
             bool existeUsuario = await _context.Usuario.AnyAsync(x => x.Identificador == id).ConfigureAwait(true);
 
@@ -100,18 +99,25 @@ namespace labclothingcollection.Controllers
                 return NotFound("Usuário não encontrado");
             }
 
+            var usuario = await _context.Usuario.FindAsync(id);
+
+            usuario.Nome = usuarioAtDTO.Nome;
+            usuario.Genero = usuarioAtDTO.Genero;
+            usuario.DataNascimento = usuarioAtDTO.DataNascimento;
+            usuario.Telefone = usuarioAtDTO.Telefone;
+            usuario.Tipo = usuarioAtDTO.Tipo;
+
+            _context.Entry(usuario).State = EntityState.Modified;
+
             await _context.SaveChangesAsync();
 
             var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
 
             var mapper = configuration.CreateMapper();
 
-            UsuarioAtualizacaoResponseDTO usuarioResponseDTO = mapper.Map<UsuarioAtualizacaoResponseDTO>(usuario);
+            UsuarioResponseDTO usuarioResponseDTO = mapper.Map<UsuarioResponseDTO>(usuario);
 
-            _context.Entry(usuario).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(usuarioResponseDTO);
 
         }
 

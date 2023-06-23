@@ -1,4 +1,5 @@
 ﻿using labclothingcollection.Models;
+using labclothingcollection.Models.Enum;
 using System.ComponentModel.DataAnnotations;
 
 namespace labclothingcollection.DTO.Response
@@ -13,7 +14,7 @@ namespace labclothingcollection.DTO.Response
         public DateTime DataNascimento { get; set; }
 
         public string Telefone { get; set; }
-        public string Tipo { get; set; }
+        public EnumTipoUsuario Tipo { get; set; }
 
         public static implicit operator UsuarioAtualizacaoResponseDTO(Usuario usuario)
         {
@@ -23,7 +24,7 @@ namespace labclothingcollection.DTO.Response
                 Genero = usuario.Genero,
                 Telefone = usuario.Telefone,
                 DataNascimento = usuario.DataNascimento,
-                Tipo = usuario.Tipo.ToString(),
+                Tipo = usuario.Tipo,
             };
 
             return usuarioAtDTO;
