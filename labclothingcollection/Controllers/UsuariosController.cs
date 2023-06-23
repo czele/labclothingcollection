@@ -23,122 +23,177 @@ namespace labclothingcollection.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get([FromQuery] EnumStatus? status)
         {
-            List<Usuario> usuarios = await _context.Usuario.Where(x => status != null ? x.Status == status : x.Status != null)
-                .ToListAsync();
+            try
+            {
+                List<Usuario> usuarios = await _context.Usuario.
+                    Where(x => status != null ? x.Status == status : x.Status != null)
+                    .ToListAsync();
 
-            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
+                var configuration = new MapperConfiguration
+                    (cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
 
-            var mapper = configuration.CreateMapper();
+                var mapper = configuration.CreateMapper();
 
-            List<UsuarioResponseDTO> usuarioResponseDTO = mapper.Map<List<UsuarioResponseDTO>>(usuarios);
+                List<UsuarioResponseDTO> usuarioResponseDTO = mapper.
+                    Map<List<UsuarioResponseDTO>>(usuarios);
 
-            return Ok(usuarioResponseDTO);
+                return Ok(usuarioResponseDTO);
+            }
+            catch
+            {
+                return StatusCode(500, "O servidor achou um erro não esperado.");
+            }
 
         }
-
-        
+    
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetId(int id)
         {
-            var usuario = await _context.Usuario.FirstOrDefaultAsync(x => x.Identificador == id).ConfigureAwait(true);
-
-            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
-
-            var mapper = configuration.CreateMapper();
-
-            UsuarioResponseDTO usuarioResponseDTO = mapper.Map<UsuarioResponseDTO>(usuario);
-
-            if (usuarioResponseDTO is null)
+            try
             {
-                return NotFound("Usuário não encontrado");
+                var usuario = await _context.Usuario.
+                    FirstOrDefaultAsync(x => x.Identificador == id).
+                    ConfigureAwait(true);
+
+                var configuration = new MapperConfiguration(cfg => cfg.
+                CreateMap<Usuario, UsuarioResponseDTO>());
+
+                var mapper = configuration.CreateMapper();
+
+                UsuarioResponseDTO usuarioResponseDTO = mapper.
+                    Map<UsuarioResponseDTO>(usuario);
+
+                if (usuarioResponseDTO is null)
+                {
+                    return NotFound("Usuário não encontrado");
+                }
+
+                return Ok(usuarioResponseDTO);
+            }
+            catch
+            {
+                return StatusCode(500, "O servidor achou um erro não esperado.");
             }
 
-            return Ok(usuarioResponseDTO);
         }
-
        
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [SwaggerResponse(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] Usuario usuario)
         {
-            var UsuarioExiste = await _context.Usuario.FirstOrDefaultAsync(x => x.Cpf == usuario.Cpf).ConfigureAwait(true);
-
-            if (UsuarioExiste is null)
+            try
             {
-                _context.Usuario.Add(usuario);
+                var UsuarioExiste = await _context.Usuario.
+                    FirstOrDefaultAsync(x => x.Cpf == usuario.Cpf).
+                    ConfigureAwait(true);
 
-                await _context.SaveChangesAsync();
+                if (UsuarioExiste is null)
+                {
+                    _context.Usuario.Add(usuario);
 
-                var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
+                    await _context.SaveChangesAsync();
 
-                var mapper = configuration.CreateMapper();
+                    var configuration = new MapperConfiguration(cfg => cfg.
+                    CreateMap<Usuario, UsuarioResponseDTO>());
 
-                UsuarioResponseDTO usuarioResponseDTO = mapper.Map<UsuarioResponseDTO>(usuario);
+                    var mapper = configuration.CreateMapper();
 
-                return CreatedAtAction(nameof(Get), new { id = usuarioResponseDTO.Identificador }, usuarioResponseDTO);
+                    UsuarioResponseDTO usuarioResponseDTO = mapper.
+                        Map<UsuarioResponseDTO>(usuario);
+
+                    return CreatedAtAction(nameof(Get), new { id = 
+                        usuarioResponseDTO.Identificador }, usuarioResponseDTO);
+                }
+
+                return Conflict("Usuário já cadastrado");
             }
-
-            return Conflict("Usuário já cadastrado");
+            catch
+            {
+                return StatusCode(500, "O servidor achou um erro não esperado.");
+            }
 
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromRoute] int id, [FromBody] UsuarioAtualizacaoResponseDTO usuarioAtDTO)
         {
-            bool existeUsuario = await _context.Usuario.AnyAsync(x => x.Identificador == id).ConfigureAwait(true);
-
-            if (!existeUsuario)
+            try
             {
-                return NotFound("Usuário não encontrado");
+                bool existeUsuario = await _context.Usuario.
+                    AnyAsync(x => x.Identificador == id).ConfigureAwait(true);
+
+                if (!existeUsuario)
+                {
+                    return NotFound("Usuário não encontrado");
+                }
+
+                var usuario = await _context.Usuario.FindAsync(id);
+
+                usuario.Nome = usuarioAtDTO.Nome;
+                usuario.Genero = usuarioAtDTO.Genero;
+                usuario.DataNascimento = usuarioAtDTO.DataNascimento;
+                usuario.Telefone = usuarioAtDTO.Telefone;
+                usuario.Tipo = usuarioAtDTO.Tipo;
+
+                _context.Entry(usuario).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+
+                var configuration = new MapperConfiguration(cfg => cfg.
+                CreateMap<Usuario, UsuarioResponseDTO>());
+
+                var mapper = configuration.CreateMapper();
+
+                UsuarioResponseDTO usuarioResponseDTO = mapper.
+                    Map<UsuarioResponseDTO>(usuario);
+
+                return Ok(usuarioResponseDTO);
             }
-
-            var usuario = await _context.Usuario.FindAsync(id);
-
-            usuario.Nome = usuarioAtDTO.Nome;
-            usuario.Genero = usuarioAtDTO.Genero;
-            usuario.DataNascimento = usuarioAtDTO.DataNascimento;
-            usuario.Telefone = usuarioAtDTO.Telefone;
-            usuario.Tipo = usuarioAtDTO.Tipo;
-
-            _context.Entry(usuario).State = EntityState.Modified;
-
-            await _context.SaveChangesAsync();
-
-            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Usuario, UsuarioResponseDTO>());
-
-            var mapper = configuration.CreateMapper();
-
-            UsuarioResponseDTO usuarioResponseDTO = mapper.Map<UsuarioResponseDTO>(usuario);
-
-            return Ok(usuarioResponseDTO);
+            catch
+            {
+                return StatusCode(500, "O servidor achou um erro não esperado.");
+            }
 
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPatch("{id}/status")]
         public async Task<IActionResult> Patch([FromRoute] int id, [FromBody] EnumStatus status)
         {
-            var usuario = await _context.Usuario.FirstOrDefaultAsync(x => x.Identificador == id).ConfigureAwait(true);
-
-
-            if (usuario is null)
+            try
             {
-                return NotFound("Usuário não encontrado");
+                var usuario = await _context.Usuario.
+                    FirstOrDefaultAsync(x => x.Identificador == id).
+                    ConfigureAwait(true);
+
+                if (usuario is null)
+                {
+                    return NotFound("Usuário não encontrado");
+                }
+
+                usuario.Status = status;
+
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
-
-            usuario.Status = status; 
-
-            await _context.SaveChangesAsync(); 
-
-            return NoContent();
+            catch
+            {
+                return StatusCode(500, "O servidor achou um erro não esperado.");
+            }
 
         }
 
