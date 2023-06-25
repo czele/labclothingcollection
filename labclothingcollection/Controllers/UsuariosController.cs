@@ -21,6 +21,13 @@ namespace labclothingcollection.Controllers
             _context = labClothingCollectionContext;
         }
 
+        /// <summary>
+        /// Lista de usuários cadastrados
+        /// <param name="status">Status do usuário(ativo ou inativo)</param>
+        /// <returns>Retorna uma lista dos usuários cadastrados</returns>
+        /// <response code="200">Sucesso no retorno da lista dos usuários cadastrados</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -48,7 +55,15 @@ namespace labclothingcollection.Controllers
             }
 
         }
-    
+
+        /// <summary>
+        /// Usuário cadastrado através do id
+        /// <param name="id">id do usuário</param>
+        /// <returns>Retorna o usuário cadastrado</returns>
+        /// <response code="200">Sucesso no retorno do usuário cadastrado</response>
+        /// <response code="404">Usuário não encontrado</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -82,7 +97,15 @@ namespace labclothingcollection.Controllers
             }
 
         }
-       
+
+        /// <summary>
+        /// Cadastro de um novo usuário
+        /// <param name="usuario">Atributos do usuário</param>
+        /// <returns>Retorna o usuário cadastrado</returns>
+        /// <response code="201">Usuário criado com sucesso</response>
+        /// <response code="409">CPF de usuário já cadastrado</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [SwaggerResponse(StatusCodes.Status409Conflict)]
@@ -122,6 +145,15 @@ namespace labclothingcollection.Controllers
 
         }
 
+        /// <summary>
+        /// Atualização de um usuário através do id
+        /// <param name="id">id do usuário</param>
+        /// <param name="usuarioAtDTO">Atributos do usuário</param>
+        /// <returns>Usuário atualizado</returns>
+        /// <response code="204">Atualização realizada com sucesso</response>
+        /// <response code="404">Usuário não encontrado</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -167,6 +199,15 @@ namespace labclothingcollection.Controllers
 
         }
 
+        /// <summary>
+        /// Atualização do status de um usuário através do id
+        /// <param name="id">id do usuário</param>
+        /// <param name="status">Status do usuário</param>
+        /// <returns>Status do usuário atualizado</returns>
+        /// <response code="204">Atualização realizada com sucesso</response>
+        /// <response code="404">Usuário não encontrado</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

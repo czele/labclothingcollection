@@ -21,7 +21,7 @@ namespace labclothingcollection.Controllers
         }
 
         /// <summary>
-        /// Lista de modelos cadastradas
+        /// Lista de modelos cadastrados
         /// <param name="status">Status do modelo(ativo ou inativo)</param>
         /// <returns>Retorna uma lista dos modelos cadastrados</returns>
         /// <response code="200">Sucesso no retorno da lista dos modelos cadastrados</response>
@@ -98,7 +98,7 @@ namespace labclothingcollection.Controllers
         /// <param name="modelo">Atributos do modelo</param>
         /// <returns>Modelo atualizado</returns>
         /// <response code="204">Atualização realizada com sucesso</response>
-        /// <response code="404">Modelo não encontrada</response>
+        /// <response code="404">Modelo não encontrado</response>
         /// <response code="500">Erro interno do servidor</response>
         /// </summary>
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -133,7 +133,7 @@ namespace labclothingcollection.Controllers
         /// <param name="modelo">Atributos do modelo</param>
         /// <returns>Retorna o modelo cadastrado</returns>
         /// <response code="201">Modelo criado com sucesso</response>
-        /// <response code="409">Nome d modelo já cadastrado</response>
+        /// <response code="409">Nome do modelo já cadastrado</response>
         /// <response code="500">Erro interno do servidor</response>
         /// </summary>
         [HttpPost]
