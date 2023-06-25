@@ -5,3 +5,6 @@ A aplicação foi desenvolvida como uma API Rest usando a linguagem C# e as tecn
 Para executar a aplicação, você só precisa ter o Visual Studio Code instalado em seu computador, clonar o repositório do Github, instalar os pacotes NuGet necessários e executar o código. O Swagger será iniciado automaticamente, proporcionando uma experiência intuitiva ao utilizar a API.
 
 Para melhor compreensão, vou fornecer o esquema do banco de dados, que permitirá visualizar mais clara sobre os atributos e a estruturação de dados abrangidos pelo sistema LAB Clothing Collection.
+
+![image](https://github.com/czele/labclothingcollection/assets/67036072/ceac997f-d48b-432f-b9a1-b01c81f59af6)
+
