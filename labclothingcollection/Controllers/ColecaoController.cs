@@ -59,7 +59,7 @@ namespace labclothingcollection.Controllers
         /// Coleção cadastrada através do id
         /// <param name="id">id da coleção</param>
         /// <returns>Retorna a coleção cadastrada</returns>
-        /// <response code="200">Sucesso no retorno da lista de coleções cadastradas</response>
+        /// <response code="200">Sucesso no retorno da coleção cadastrada</response>
         /// <response code="404">Coleção não encontrada</response>
         /// <response code="500">Erro interno do servidor</response>
         /// </summary>
@@ -99,7 +99,7 @@ namespace labclothingcollection.Controllers
         /// Atualização de uma coleção através do id
         /// <param name="id">id da coleção</param>
         /// <param name="colecao">Atributos da coleção</param>
-        /// <returns>Retorna a coleção atualizada</returns>
+        /// <returns>Coleção atualizada</returns>
         /// <response code="204">Atualização realizada com sucesso</response>
         /// <response code="404">Coleção não encontrada</response>
         /// <response code="500">Erro interno do servidor</response>
@@ -172,7 +172,7 @@ namespace labclothingcollection.Controllers
         /// <summary>
         /// Cadastro de uma nova coleção
         /// <param name="colecao">Atributos da coleção</param>
-        /// <returns>Retorna a coleção atualizada</returns>
+        /// <returns>Retorna a coleção cadastrada</returns>
         /// <response code="201">Cadastro criado com sucesso</response>
         /// <response code="409">Nome de coleção já cadastrado</response>
         /// <response code="500">Erro interno do servidor</response>
@@ -219,7 +219,7 @@ namespace labclothingcollection.Controllers
         /// Exclusão de coleção através do id
         /// <param name="id">id da coleção</param>
         /// <returns>Exclusão da coleção</returns>
-        /// <response code="204">Remoção do filme realizada com sucesso</response>
+        /// <response code="204">Exclusão da coleção realizada com sucesso</response>
         /// <response code="404">Coleção não encontrada</response>
         /// <response code="403">Não é possível a exclusão de uma coleção ativa ou que possua modelos vinculados</response>
         /// <response code="500">Erro interno do servidor</response>

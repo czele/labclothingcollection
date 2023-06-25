@@ -20,7 +20,13 @@ namespace labclothingcollection.Controllers
             _context = context;
         }
 
-
+        /// <summary>
+        /// Lista de modelos cadastradas
+        /// <param name="status">Status do modelo(ativo ou inativo)</param>
+        /// <returns>Retorna uma lista dos modelos cadastrados</returns>
+        /// <response code="200">Sucesso no retorno da lista dos modelos cadastrados</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -47,7 +53,14 @@ namespace labclothingcollection.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Modelo cadastrado através do id
+        /// <param name="id">id do modelo</param>
+        /// <returns>Retorna o modelo cadastrado</returns>
+        /// <response code="200">Sucesso no retorno do modelo cadastrado</response>
+        /// <response code="404">Modelo não encontrado</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -79,6 +92,15 @@ namespace labclothingcollection.Controllers
             }
         }
 
+        /// <summary>
+        /// Atualização de um modelo através do id
+        /// <param name="id">id da coleção</param>
+        /// <param name="modelo">Atributos do modelo</param>
+        /// <returns>Modelo atualizado</returns>
+        /// <response code="204">Atualização realizada com sucesso</response>
+        /// <response code="404">Modelo não encontrada</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -106,9 +128,18 @@ namespace labclothingcollection.Controllers
             }
         }
 
+        /// <summary>
+        /// Cadastro de um novo modelo
+        /// <param name="modelo">Atributos do modelo</param>
+        /// <returns>Retorna o modelo cadastrado</returns>
+        /// <response code="201">Modelo criado com sucesso</response>
+        /// <response code="409">Nome d modelo já cadastrado</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [SwaggerResponse(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody]Modelo modelo)
         {
             try
@@ -143,6 +174,14 @@ namespace labclothingcollection.Controllers
             }
         }
 
+        /// <summary>
+        /// Exclusão de modelo através do id
+        /// <param name="id">id do modelo</param>
+        /// <returns>Exclusão da coleção</returns>
+        /// <response code="204">Exclusão do modelo realizada com sucesso</response>
+        /// <response code="404">Modelo não encontrad0</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
