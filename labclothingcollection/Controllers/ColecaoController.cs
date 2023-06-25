@@ -20,7 +20,13 @@ namespace labclothingcollection.Controllers
             _context = context;
         }
 
-
+        /// <summary>
+        /// Lista de coleções cadastradas
+        /// <param name="status">Status da coleção(ativo ou inativo)</param>
+        /// <returns>Retorna uma lista das coleções cadastradas</returns>
+        /// <response code="200">Sucesso no retorno da lista de coleções cadastradas</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -49,6 +55,14 @@ namespace labclothingcollection.Controllers
             
         }
 
+        /// <summary>
+        /// Coleção cadastrada através do id
+        /// <param name="id">id da coleção</param>
+        /// <returns>Retorna a coleção cadastrada</returns>
+        /// <response code="200">Sucesso no retorno da lista de coleções cadastradas</response>
+        /// <response code="404">Coleção não encontrada</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -81,7 +95,16 @@ namespace labclothingcollection.Controllers
             }
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        /// <summary>
+        /// Atualização de uma coleção através do id
+        /// <param name="id">id da coleção</param>
+        /// <param name="colecao">Atributos da coleção</param>
+        /// <returns>Retorna a coleção atualizada</returns>
+        /// <response code="204">Atualização realizada com sucesso</response>
+        /// <response code="404">Coleção não encontrada</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
@@ -108,7 +131,16 @@ namespace labclothingcollection.Controllers
             }
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        /// <summary>
+        /// Atualização do status de uma coleção(ativo ou inativo) através do id
+        /// <param name="id">id da coleção</param>
+        /// <param name="status">Novo status da coleção</param>
+        /// <returns>Retorna o status da coleção atualizada</returns>
+        /// <response code="204">Atualização de status realizada com sucesso</response>
+        /// <response code="404">Coleção não encontrada</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPatch("{id}/status")]
@@ -137,7 +169,14 @@ namespace labclothingcollection.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Cadastro de uma nova coleção
+        /// <param name="colecao">Atributos da coleção</param>
+        /// <returns>Retorna a coleção atualizada</returns>
+        /// <response code="201">Cadastro criado com sucesso</response>
+        /// <response code="409">Nome de coleção já cadastrado</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [SwaggerResponse(StatusCodes.Status409Conflict)]
@@ -176,6 +215,15 @@ namespace labclothingcollection.Controllers
             }
         }
 
+        /// <summary>
+        /// Exclusão de coleção através do id
+        /// <param name="id">id da coleção</param>
+        /// <returns>Exclusão da coleção</returns>
+        /// <response code="204">Remoção do filme realizada com sucesso</response>
+        /// <response code="404">Coleção não encontrada</response>
+        /// <response code="403">Não é possível a exclusão de uma coleção ativa ou que possua modelos vinculados</response>
+        /// <response code="500">Erro interno do servidor</response>
+        /// </summary>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
