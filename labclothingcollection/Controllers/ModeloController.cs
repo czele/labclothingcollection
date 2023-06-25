@@ -101,10 +101,10 @@ namespace labclothingcollection.Controllers
         /// <response code="404">Modelo não encontrado</response>
         /// <response code="500">Erro interno do servidor</response>
         /// </summary>
+        [HttpPut("id")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpPut("id")]
         public async Task<IActionResult> Put([FromRoute]int id, [FromBody] Modelo modelo)
         {
             try

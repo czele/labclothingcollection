@@ -154,10 +154,10 @@ namespace labclothingcollection.Controllers
         /// <response code="404">Usuário não encontrado</response>
         /// <response code="500">Erro interno do servidor</response>
         /// </summary>
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromRoute] int id, [FromBody] UsuarioAtualizacaoResponseDTO usuarioAtDTO)
         {
             try
@@ -208,10 +208,10 @@ namespace labclothingcollection.Controllers
         /// <response code="404">Usuário não encontrado</response>
         /// <response code="500">Erro interno do servidor</response>
         /// </summary>
+        [HttpPatch("{id}/status")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpPatch("{id}/status")]
         public async Task<IActionResult> Patch([FromRoute] int id, [FromBody] EnumStatus status)
         {
             try
