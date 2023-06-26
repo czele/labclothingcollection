@@ -6,7 +6,7 @@ namespace labclothingcollection.DTO.Response
     public class ColecaoResponseDTO
     {
         public int Id { get; set; }
-        public Usuario? Usuario { get; set; } //É foreign key. Caso de errado substitui para public int UsuarioIdentificador
+        public int UsuarioIdentificador { get; set; } 
         public string Nome { get; set; }
         public string Status { get; set; }
         public string Marca { get; set; }
@@ -21,7 +21,7 @@ namespace labclothingcollection.DTO.Response
             ColecaoResponseDTO colecaoResponseDTO = new ColecaoResponseDTO
             {
                 Id = colecao.Id,
-                Usuario = colecao.Usuario, //subistitui aqui se der errado aqui também
+                UsuarioIdentificador = colecao.UsuarioIdentificador, 
                 Nome = colecao.Nome,
                 Status = colecao.Status.ToString(),
                 Marca = colecao.Marca,

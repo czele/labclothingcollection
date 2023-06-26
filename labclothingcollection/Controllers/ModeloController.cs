@@ -35,7 +35,7 @@ namespace labclothingcollection.Controllers
             try
             {
                 List<Modelo> modelos = await _context.Modelo.Where(x => layout != null ? x.Layout == layout : x.Layout != null).
-                        ToListAsync();
+                        ToListAsync().ConfigureAwait(true);
 
                 var configuration = new MapperConfiguration(cfg => cfg.
                 CreateMap<Modelo, ModeloResponseDTO>());
@@ -105,19 +105,23 @@ namespace labclothingcollection.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put([FromRoute]int id, [FromBody] Modelo modelo)
+        public async Task<IActionResult> Put(int id, Modelo modelo)
         {
             try
             {
-                bool existeUsuario = await _context.Modelo.
-                    AnyAsync(x => x.Id == id).ConfigureAwait(true);
+                var modeloCadastrado = await _context.Modelo.
+                      AsNoTracking()
+                      .FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(true);
 
-                if (!existeUsuario)
+                if (modeloCadastrado is null)
                 {
                     return NotFound("Modelo não encontrado");
                 }
 
+                modelo.ColecaoId = modeloCadastrado.ColecaoId;
+                modelo.Colecao = modeloCadastrado.Colecao;
                 _context.Entry(modelo).State = EntityState.Modified;
+                _context.Modelo.Update(modelo);
                 await _context.SaveChangesAsync();
 
                 return NoContent();
