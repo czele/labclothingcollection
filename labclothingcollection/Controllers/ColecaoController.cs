@@ -52,7 +52,7 @@ namespace labclothingcollection.Controllers
             {
                 return StatusCode(500, "O servidor achou um erro não esperado.");
             }
-            
+
         }
 
         /// <summary>
@@ -188,8 +188,7 @@ namespace labclothingcollection.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] Colecao colecao)
         {
-           
-           {
+            try { 
                 var colecaoExiste = await _context.Colecao.
                     FirstOrDefaultAsync(x => x.Nome == colecao.Nome).
                     ConfigureAwait(true);
@@ -213,12 +212,14 @@ namespace labclothingcollection.Controllers
                 }
 
                 return Conflict("Coleção já cadastrada");
-           
-           catch
-           {
+            }
+                   
+             catch
+            {
                return StatusCode(500, "O servidor achou um erro não esperado.");
-           }
+            }
         }
+       
 
         /// <summary>
         /// Exclusão de coleção através do id
