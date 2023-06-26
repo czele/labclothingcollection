@@ -1,13 +1,15 @@
 ﻿using labclothingcollection.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace labclothingcollection.Seeds
 {
+    [ExcludeFromCodeCoverage]
     public static class MockColecao
     {
-        public static IList<Colecao> colecao = new List<Colecao>()
+        public static IList<Colecao> colecao { get; set; } = new List<Colecao>()
         {
             new Colecao
-            {    
+            {
                 Id = 1,
                 UsuarioIdentificador = 1,
                 Nome = "Nome 1",
@@ -17,7 +19,7 @@ namespace labclothingcollection.Seeds
                 Estacao = Models.Enum.EnumEstacao.Primavera,
                 AnoLancamento = new DateTime(1991,05,22)
             },
-            new Colecao 
+            new Colecao
             {
                 Id = 2,
                 UsuarioIdentificador = 2,

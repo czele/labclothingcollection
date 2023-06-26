@@ -1,10 +1,12 @@
 ﻿using labclothingcollection.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace labclothingcollection.Seeds
 {
+    [ExcludeFromCodeCoverage]
     public static class MockModelo
     {
-        public static IList<Modelo> modelo = new List<Modelo>()
+        public static IList<Modelo> modelo { get; set; } = new List<Modelo>()
         {
             new Modelo
             {
